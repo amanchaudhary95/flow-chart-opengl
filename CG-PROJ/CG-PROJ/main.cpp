@@ -5,10 +5,8 @@
 #include<math.h>
 #include<stdio.h>
 
-//Parameters for window size
-GLsizei ww=600, wh=800, wx, wy, wx1=600, wy1=800;
-
-int screenIndex=0;
+GLsizei ww=600,wh=800,wx,wy,wx1=600,wy1=800;
+int wel=0;
 void *currentfont;
 int count=0;
 float posx,posy;
@@ -21,15 +19,17 @@ float b[100][4];
 int drw[100];
 int m=0;
 int k=0;
-const float DEG2RAD = 3.14159/180.0;
+int s=0;
+//const float DEG2RAD = 3.14159/180.0;
 int temp1,temp2;
-enum screen_type { SPLASH_SCREEN, DRAW_SCREEN };
+char text[40];
+float textx=50,texty=wh-25,textz=0.0;
+
 
 void setfont(void *font){
     currentfont=font;
 }
-
-void reset()
+void    reset()
 {
     glColor3f(0.85,0.85,0.85);
     glRectf(0, wh-45,500, wh);
@@ -122,8 +122,8 @@ void	plotpixels(GLfloat	p,	GLfloat	q,	GLfloat	x,	GLfloat	y)
 }
 
 
-//  to draw a   CIRCLE  using   MIDPOINT    CIRCLE  DRAWING algorithm
-void draw_circle(GLfloat p,	GLfloat	q,	GLfloat	r)
+void	draw_circle(GLfloat	p,	GLfloat	q,	GLfloat	r)				/*	to	draw	a	CIRCLE	using	MIDPOINT	CIRCLE	DRAWING	algorithm
+                                                                     */
 {
     GLfloat	d=1-r,	x=0,	y=r;
     
@@ -255,35 +255,89 @@ void Ellipse (int a, int b, int xc, int yc)
 }
 
 
+
+void	keys(unsigned	char	key,	int	x,	int	y)																		                                        /*	to	get	text from keyboard		*/
+{
+    
+    if(key==127)
+    {
+        //text[s]=key;
+        textx=textx-10;
+        glRasterPos3f	(textx,	texty,textz);
+        
+        glColor3f(0.85, 0.85,   0.85);
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, text[s]);
+        
+        
+        s--;
+        
+        
+    }
+    
+    else
+        
+    {
+        text[s]=key;
+        
+        glRasterPos3f	(textx,	texty,textz);
+        
+        glColor3f(0,	0,	0);
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, text[s]);
+        textx=textx+10;
+        
+        s++;
+    }
+    
+    glFlush();
+    
+    
+    
+}
+
+
 void display(void)
 {
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     
-    if(screenIndex == 0 || screenIndex == 1) {
-        //Clear the buffer of the screen
-        glClearColor(0.0, 0.0, 0.0, 1.0);
+    if(wel==0   ||  wel==1)         {
+        
+        glClearColor    (0.0,   0.0,    0.0,    1.0);
         glClear(GL_COLOR_BUFFER_BIT);
         
         
         setfont(GLUT_BITMAP_HELVETICA_18);
-        glColor3f(0, 1, 1);
+        glColor3f(0,    1,  1);
         drawstring(32*wh/45,    42*wh/45    ,   0.0,    "A  Mini    Project On");
+        
         drawstring(22*wh/45,    40*wh/45,   0.0,    "DESIGN AND IMPLEMENTION    OF  FLOWCHART MAKER");
         
+        
+        
         setfont(GLUT_BITMAP_9_BY_15);
+        
         drawstring(33*wh/45,    32*wh/45,   0.0,    "BY:");
         drawstring(20*wh/45,    29*wh/45,   0.0,    "Name : Aishwary Gupta");
         drawstring(20*wh/45,    27*wh/45,   0.0,    "usn : 1PE13CS009");
+        
+        
         drawstring(44*wh/45,    29*wh/45,   0.0,    "Name : Aman Chaudhary");
         drawstring(44*wh/45,    27*wh/45,   0.0,    "usn : 1PE13CS020");
-        drawstring(31*wh/45,    20*wh/45,   0.0,    "UNDER  THE GUIDANCE    OF:");
+        
+        
+        
+        drawstring(31*wh/45,    20*wh/45,   0.0,    "UNDER  THE GUIDENCE    OF:");
+        
         drawstring(20*wh/45,    17*wh/45,   0.0,    "Mrs. Sudha Y");
         drawstring(20*wh/45,    15*wh/45,   0.0,    "LECTURER,  Dept.   of  CS&E");
         drawstring(20*wh/45,    13*wh/45,   0.0,    "College");
         
+        /*drawstring(43*wh/45,    17*wh/45,   0.0,    "Teacher");
+         drawstring(43*wh/45,    15*wh/45,   0.0,    "LECTURER,  Dept.   of  CS&E");
+         drawstring(43*wh/45,    13*wh/45,   0.0,    "College");*/
         
-        screenIndex=1;
+        
+        wel=1;
         
         glFlush();
         glClearColor    (1.0,   1.0,    1.0,    1.0);
@@ -291,7 +345,7 @@ void display(void)
         
     }
     
-    if(screenIndex==2)
+    if(wel==2)
     {
         
         count++;
@@ -451,16 +505,14 @@ void    mymouse(int btn,    int state,  int x,  int y)
 {
     
     
-    
-    
     if(btn==GLUT_LEFT_BUTTON    &&  state==GLUT_DOWN)
     {
         printf("x=%d y=%d \n",x,y);
         setfont(GLUT_BITMAP_9_BY_15);
         
-        if(screenIndex==1 || screenIndex==0)
+        if(wel==1 || wel==0)
         {
-            screenIndex=2;
+            wel=2;
             display();
         }
         
@@ -692,17 +744,10 @@ void    mymouse(int btn,    int state,  int x,  int y)
                                 
                                 
                             }
-                            
                         }
-                        
-                        
                     }
-                    
                 }
-                
             }
-            
-            
         }
         
         
@@ -736,9 +781,7 @@ void    mymouse(int btn,    int state,  int x,  int y)
                     }
                     
                 }
-                
             }
-            
             
         }
         
@@ -783,15 +826,9 @@ void    mymouse(int btn,    int state,  int x,  int y)
                             }
                             
                         }
-                        
-                        
                     }
-                    
                 }
-                
             }
-            
-            
         }
         
         
@@ -1082,13 +1119,16 @@ void    myreshape(GLsizei   w,  GLsizei h)  /*  RESHAPE FUNCTION    */
     glutPostRedisplay();
     
     
+    
+    
 }
+
 
 
 int main(int argc, char ** argv)
 
 {
-    image   =   (char *)malloc(3*1450*900*sizeof(char));
+    //image   =   (char *)malloc(3*1450*900*sizeof(char));
     glutInit(&argc,argv);
     glutInitDisplayMode (GLUT_SINGLE|   GLUT_RGB);
     glutCreateWindow("CG PROJECT");
@@ -1097,6 +1137,7 @@ int main(int argc, char ** argv)
     glutDisplayFunc(display);
     glutMouseFunc(mymouse);
     glutReshapeFunc(myreshape);
+    glutKeyboardFunc(keys);
     glutFullScreen();
     glutMainLoop();
     

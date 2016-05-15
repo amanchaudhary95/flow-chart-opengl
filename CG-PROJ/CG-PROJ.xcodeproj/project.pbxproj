@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A7217F4D1CE8A8E3006B7766 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = A7217F4C1CE8A8E3006B7766 /* main.c */; };
+		63510B571CE8ABA500D1B01E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63510B551CE8ABA500D1B01E /* main.cpp */; };
 		A7217F541CE8A907006B7766 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7217F531CE8A907006B7766 /* OpenGL.framework */; };
 		A7217F561CE8A90C006B7766 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7217F551CE8A90C006B7766 /* GLUT.framework */; };
 		A7217F581CE8A913006B7766 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7217F571CE8A913006B7766 /* Cocoa.framework */; };
@@ -26,8 +26,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		63510B551CE8ABA500D1B01E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		63510B561CE8ABA500D1B01E /* main.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = main.hpp; sourceTree = "<group>"; };
 		A7217F491CE8A8E3006B7766 /* CG-PROJ */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "CG-PROJ"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A7217F4C1CE8A8E3006B7766 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		A7217F531CE8A907006B7766 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		A7217F551CE8A90C006B7766 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		A7217F571CE8A913006B7766 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -69,7 +70,8 @@
 		A7217F4B1CE8A8E3006B7766 /* CG-PROJ */ = {
 			isa = PBXGroup;
 			children = (
-				A7217F4C1CE8A8E3006B7766 /* main.c */,
+				63510B551CE8ABA500D1B01E /* main.cpp */,
+				63510B561CE8ABA500D1B01E /* main.hpp */,
 			);
 			path = "CG-PROJ";
 			sourceTree = "<group>";
@@ -130,7 +132,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7217F4D1CE8A8E3006B7766 /* main.c in Sources */,
+				63510B571CE8ABA500D1B01E /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +253,7 @@
 				A7217F521CE8A8E3006B7766 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
