@@ -23,7 +23,8 @@ int s=0;
 //const float DEG2RAD = 3.14159/180.0;
 int temp1,temp2;
 char text[40];
-float textx=50,texty=wh-25,textz=0.0;
+float textx=0,texty=0,textz=0;
+
 
 
 void setfont(void *font){
@@ -1128,6 +1129,7 @@ void    myreshape(GLsizei   w,  GLsizei h)  /*  RESHAPE FUNCTION    */
 int main(int argc, char ** argv)
 
 {
+    textx=50,texty=wh-25,textz=0.0;
     image   =   (char *)malloc(3*1450*900*sizeof(char));
     glutInit(&argc,argv);
     glutInitDisplayMode (GLUT_SINGLE|   GLUT_RGB);
