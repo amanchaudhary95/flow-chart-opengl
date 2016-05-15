@@ -18,35 +18,47 @@ int undo=0;
 float flowchart_element_x[100][4];
 float flowchart_element_y[100][4];
 int drw[100];
-int m=0;
+int element_index=0;
 int k=0;
 int s=0;
 //const float DEG2RAD = 3.14159/180.0;
 int temp1,temp2;
 char text[40];
 float textx=0,texty=0,textz=0;
-
-
+const float GUI_GRAY = 0.85f;
 
 void setfont(void *font){
     currentfont=font;
 }
-void    reset()
+
+void stack_push(){
+    int i = 0;
+    flowchart_element_x[element_index][i]=a1;
+    flowchart_element_x[element_index][i+1]=a2;
+    flowchart_element_x[element_index][i+2]=a3;
+    flowchart_element_x[element_index][i+3]=a4;
+    flowchart_element_y[element_index][i]=b1;
+    flowchart_element_y[element_index][i+1]=b2;
+    flowchart_element_y[element_index][i+2]=b3;
+    flowchart_element_y[element_index][i+3]=b4;
+    drw[element_index++]=draw;
+}
+
+void clear_left_status(){
+    
+}
+
+void clear_right_status(){
+    glColor3f(GUI_GRAY, GUI_GRAY, GUI_GRAY);
+    glRectf(0, window_height-45, 500, window_height);
+}
+/*
+ Resets all the variables being used
+ */
+void reset()
 {
-    glColor3f(0.85,0.85,0.85);
-    glRectf(0, window_height-45,500, window_height);
-    int i=0;
-    flowchart_element_x[m][i]=a1;
-    flowchart_element_x[m][i+1]=a2;
-    flowchart_element_x[m][i+2]=a3;
-    flowchart_element_x[m][i+3]=a4;
-    flowchart_element_y[m][i]=b1;
-    flowchart_element_y[m][i+1]=b2;
-    flowchart_element_y[m][i+2]=b3;
-    flowchart_element_y[m][i+3]=b4;
-    drw[m]=draw;
-    //printf("%d",drw[m]);
-    m++;
+    clear_left_status();
+    stack_push();
     a1=0;
     a2=0;
     b1=0;
@@ -837,13 +849,13 @@ void    mymouse(int btn,    int state,  int x,  int y)
         if(draw==5)
         {
             
-            for(k=0;k<m;k++)
+            for(k=0;k<element_index;k++)
                 flowchart_element_x[k][0]=flowchart_element_x[k][1]=flowchart_element_x[k][2]=flowchart_element_x[k][3]=0;
             
-            for(k=1;k<m;k++)
+            for(k=1;k<element_index;k++)
                 flowchart_element_y[k][0]=flowchart_element_y[k][1]=flowchart_element_y[k][2]=flowchart_element_y[k][3]=0;
             
-            m=0;
+            element_index=0;
             
             
             count=0;
@@ -979,31 +991,31 @@ void    mymouse(int btn,    int state,  int x,  int y)
         
         if(undo==1)
         {
-            m--;
-            if(m<0)
+            element_index--;
+            if(element_index<0)
             {    glColor3f(1, 0, 0);
                 drawstring(window_height/80, window_height-25, 0.0, "Nothing to UNDO :)");
-                m++;
+                element_index++;
                 
             }
-            switch(drw[m])
+            switch(drw[element_index])
             {
                 case 1:
                     glColor3f(1,1,1);
-                    temp1=(int)(flowchart_element_y[m][1]-flowchart_element_y[m][0]); //b2-b1
-                    temp2=(int)(flowchart_element_x[m][1]-flowchart_element_x[m][0]); //a2-a1
+                    temp1=(int)(flowchart_element_y[element_index][1]-flowchart_element_y[element_index][0]); //b2-b1
+                    temp2=(int)(flowchart_element_x[element_index][1]-flowchart_element_x[element_index][0]); //a2-a1
                     glBegin(GL_LINES);
                     if((abs(temp1)>abs(temp2)))
                     {    glBegin(GL_LINES);
-                        glVertex2f(flowchart_element_x[m][1],  flowchart_element_y[m][1]);  //a2,b2
-                        glVertex2f(flowchart_element_x[m][1],  flowchart_element_y[m][0]);   //a2,b2
+                        glVertex2f(flowchart_element_x[element_index][1],  flowchart_element_y[element_index][1]);  //a2,b2
+                        glVertex2f(flowchart_element_x[element_index][1],  flowchart_element_y[element_index][0]);   //a2,b2
                         glEnd();
                     }
                     else{
                         glBegin(GL_LINES);
                         
-                        glVertex2f(flowchart_element_x[m][1],  flowchart_element_y[m][1]);  //a2,b2
-                        glVertex2f(flowchart_element_x[m][0],  flowchart_element_y[m][1]); // a1,b2
+                        glVertex2f(flowchart_element_x[element_index][1],  flowchart_element_y[element_index][1]);  //a2,b2
+                        glVertex2f(flowchart_element_x[element_index][0],  flowchart_element_y[element_index][1]); // a1,b2
                         glEnd();
                     }
                     
@@ -1013,10 +1025,10 @@ void    mymouse(int btn,    int state,  int x,  int y)
                 case 2:
                     glColor3f(1, 1, 1);
                     glBegin(GL_LINE_LOOP);
-                    glVertex2f(flowchart_element_x[m][0],flowchart_element_y[m][0]); //a11 b11
-                    glVertex2f(flowchart_element_x[m][1],flowchart_element_y[m][1]);  //a22 b2
-                    glVertex2f(flowchart_element_x[m][2],flowchart_element_y[m][2]);  //a3 b3
-                    glVertex2f(flowchart_element_x[m][3],flowchart_element_y[m][3]);  //a4 b4
+                    glVertex2f(flowchart_element_x[element_index][0],flowchart_element_y[element_index][0]); //a11 b11
+                    glVertex2f(flowchart_element_x[element_index][1],flowchart_element_y[element_index][1]);  //a22 b2
+                    glVertex2f(flowchart_element_x[element_index][2],flowchart_element_y[element_index][2]);  //a3 b3
+                    glVertex2f(flowchart_element_x[element_index][3],flowchart_element_y[element_index][3]);  //a4 b4
                     glEnd();
                     glFlush();
                     undo=0;
@@ -1024,10 +1036,10 @@ void    mymouse(int btn,    int state,  int x,  int y)
                 case 3:
                     glColor3f(1, 1, 1);
                     glBegin(GL_LINE_LOOP);
-                    glVertex2f(flowchart_element_x[m][0],flowchart_element_y[m][0]);   //a1b1
-                    glVertex2f(flowchart_element_x[m][1],flowchart_element_y[m][0]);    //a2b1
-                    glVertex2f(flowchart_element_x[m][1],flowchart_element_y[m][1]);   //a2b2
-                    glVertex2f(flowchart_element_x[m][0],flowchart_element_y[m][1]);   //a1b2
+                    glVertex2f(flowchart_element_x[element_index][0],flowchart_element_y[element_index][0]);   //a1b1
+                    glVertex2f(flowchart_element_x[element_index][1],flowchart_element_y[element_index][0]);    //a2b1
+                    glVertex2f(flowchart_element_x[element_index][1],flowchart_element_y[element_index][1]);   //a2b2
+                    glVertex2f(flowchart_element_x[element_index][0],flowchart_element_y[element_index][1]);   //a1b2
                     glEnd();
                     undo=0;
                     glFlush();
@@ -1035,43 +1047,43 @@ void    mymouse(int btn,    int state,  int x,  int y)
                 case 4:
                     glColor3f(1, 1 ,1);
                     glBegin(GL_LINE_LOOP);
-                    glVertex2f(flowchart_element_x[m][0],flowchart_element_y[m][0]);   //a1b1
-                    glVertex2f(flowchart_element_x[m][1],flowchart_element_y[m][1]);   //a2b2
-                    glVertex2f(flowchart_element_x[m][2],flowchart_element_y[m][2]);   //a3b3
-                    glVertex2f(flowchart_element_x[m][3],flowchart_element_y[m][3]);   //a4b4
+                    glVertex2f(flowchart_element_x[element_index][0],flowchart_element_y[element_index][0]);   //a1b1
+                    glVertex2f(flowchart_element_x[element_index][1],flowchart_element_y[element_index][1]);   //a2b2
+                    glVertex2f(flowchart_element_x[element_index][2],flowchart_element_y[element_index][2]);   //a3b3
+                    glVertex2f(flowchart_element_x[element_index][3],flowchart_element_y[element_index][3]);   //a4b4
                     glEnd();
                     undo=0;
                     glFlush();
                     break;
                 case 6:
                     glColor3f(1, 1 ,1);
-                    Ellipse(window_height/17.78,window_height/32,flowchart_element_x[m][0],flowchart_element_x[m][1]-window_height/32);
+                    Ellipse(window_height/17.78,window_height/32,flowchart_element_x[element_index][0],flowchart_element_x[element_index][1]-window_height/32);
                     undo=0;
                     break;
                 case 7:
                     //printf("drawing circle with %d ,%d",a[m][0],a[m][1]);
                     glColor3f(1, 1 ,1);
-                    draw_circle(flowchart_element_x[m][0],flowchart_element_x[m][1]-30,30);
+                    draw_circle(flowchart_element_x[element_index][0],flowchart_element_x[element_index][1]-30,30);
                     undo=0;
                     break;
                 case 8:
                     glColor3f(1, 1 ,1);
-                    down_arrow(flowchart_element_x[m][0],flowchart_element_x[m][1]);
+                    down_arrow(flowchart_element_x[element_index][0],flowchart_element_x[element_index][1]);
                     undo=0;
                     break;
                 case 9:
                     glColor3f(1, 1 ,1);
-                    up_arrow(flowchart_element_x[m][0],flowchart_element_x[m][1]);
+                    up_arrow(flowchart_element_x[element_index][0],flowchart_element_x[element_index][1]);
                     undo=0;
                     break;
                 case 10:
                     glColor3f(1, 1 ,1);
-                    left_arrow(flowchart_element_x[m][0],flowchart_element_x[m][1]);
+                    left_arrow(flowchart_element_x[element_index][0],flowchart_element_x[element_index][1]);
                     undo=0;
                     break;
                 case 11:
                     glColor3f(1, 1 ,1);
-                    right_arrow(flowchart_element_x[m][0],flowchart_element_x[m][1]);
+                    right_arrow(flowchart_element_x[element_index][0],flowchart_element_x[element_index][1]);
                     undo=0;
                     break;
                     
