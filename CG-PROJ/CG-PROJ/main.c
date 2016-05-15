@@ -23,7 +23,7 @@ int m=0;
 int k=0;
 const float DEG2RAD = 3.14159/180.0;
 int temp1,temp2;
-enum screen_type { SPLASH_SCREEN, DRAW_SCREEN }
+enum screen_type { SPLASH_SCREEN, DRAW_SCREEN };
 
 void setfont(void *font){
     currentfont=font;
@@ -122,8 +122,8 @@ void	plotpixels(GLfloat	p,	GLfloat	q,	GLfloat	x,	GLfloat	y)
 }
 
 
-//  to draw a   CIRCLE  using   MIDPOINT    CIRCLE  DRAWING algorithm 
-void draw_circle(GLfloat p,	GLfloat	q,	GLfloat	r)				
+//  to draw a   CIRCLE  using   MIDPOINT    CIRCLE  DRAWING algorithm
+void draw_circle(GLfloat p,	GLfloat	q,	GLfloat	r)
 {
     GLfloat	d=1-r,	x=0,	y=r;
     
@@ -218,7 +218,7 @@ void Ellipse (int a, int b, int xc, int yc)
     dy = twoASq*b;
     x = 0;
     y = b;
- 
+    
     symmetricPixels(x,y,xc,yc);
     while (dx < dy)
     {
@@ -251,7 +251,7 @@ void Ellipse (int a, int b, int xc, int yc)
         symmetricPixels(x,y,xc,yc);
     }
     glFlush();
- 
+    
 }
 
 
@@ -260,18 +260,18 @@ void display(void)
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     
-    if(screenIndex == 0 || screenIndex == 1) {    
+    if(screenIndex == 0 || screenIndex == 1) {
         //Clear the buffer of the screen
         glClearColor(0.0, 0.0, 0.0, 1.0);
         glClear(GL_COLOR_BUFFER_BIT);
         
-
+        
         setfont(GLUT_BITMAP_HELVETICA_18);
         glColor3f(0, 1, 1);
-        drawstring(32*wh/45,    42*wh/45    ,   0.0,    "A  Mini    Project On");       
+        drawstring(32*wh/45,    42*wh/45    ,   0.0,    "A  Mini    Project On");
         drawstring(22*wh/45,    40*wh/45,   0.0,    "DESIGN AND IMPLEMENTION    OF  FLOWCHART MAKER");
-    
-        setfont(GLUT_BITMAP_9_BY_15);    
+        
+        setfont(GLUT_BITMAP_9_BY_15);
         drawstring(33*wh/45,    32*wh/45,   0.0,    "BY:");
         drawstring(20*wh/45,    29*wh/45,   0.0,    "Name : Aishwary Gupta");
         drawstring(20*wh/45,    27*wh/45,   0.0,    "usn : 1PE13CS009");
@@ -627,10 +627,10 @@ void    mymouse(int btn,    int state,  int x,  int y)
                             glVertex2f(a2,  b2);
                             glVertex2f(a2,  b1);
                             glEnd();
-                           /* a1=a2;
-                            temp1=int(b1);
-                            b2=b1;
-                            b1=temp1;*/
+                            /* a1=a2;
+                             temp1=int(b1);
+                             b2=b1;
+                             b1=temp1;*/
                         }
                         else{
                             glBegin(GL_LINES);
@@ -638,11 +638,11 @@ void    mymouse(int btn,    int state,  int x,  int y)
                             glVertex2f(a2,  b2);
                             glVertex2f(a1,  b2);
                             glEnd();
-                           /* b1=b2;
-                            temp1=int(a1);
-                            a2=a1;
-                            a1=temp1;*/
-
+                            /* b1=b2;
+                             temp1=int(a1);
+                             a2=a1;
+                             a1=temp1;*/
+                            
                         }
                         delpoint(a2,b2);
                         glFlush();
@@ -824,7 +824,7 @@ void    mymouse(int btn,    int state,  int x,  int y)
                         
                         if(x+(wh/17.78)>(wh/8)+1  &&  x+(wh/17.78)<ww-2  && (wh-y)-wh/32>2    &&  (wh-y)-wh/32<(wh-(wh/20+10)) )
                         {
-
+                            
                             a1=x;
                             a2=wh-y;
                             Ellipse(wh/17.78,wh/32,x,(wh-y)-wh/32);
@@ -832,7 +832,7 @@ void    mymouse(int btn,    int state,  int x,  int y)
                         }
                     }
                 }
-             }
+            }
         }
         
         if(draw==7)
@@ -847,14 +847,14 @@ void    mymouse(int btn,    int state,  int x,  int y)
                         
                         if(x-30>(wh/8)+1  &&  x-30<ww-2  && (wh-y)-30>2    &&  (wh-y)-30<(wh-(wh/20+10)) )
                         {
-            
+                            
                             a1=x;
                             a2=wh-y;
                             draw_circle(x,(wh-y)-30,30);
                             reset();
                         }
                     }
-                 }
+                }
             }
             
         }
@@ -867,7 +867,7 @@ void    mymouse(int btn,    int state,  int x,  int y)
                 {
                     if(x-15>(wh/8)+1  &&  x-15<ww-2  && (wh-y)+15>2    &&  (wh-y)+15<(wh-(wh/20+10)) )
                     {
-
+                        
                         a1=x;
                         a2=y;
                         down_arrow(x,y);
@@ -886,7 +886,7 @@ void    mymouse(int btn,    int state,  int x,  int y)
                 {
                     if(x-15>(wh/8)+1  &&  x-15<ww-2  && (wh-y)-15>2    &&  (wh-y)-15<(wh-(wh/20+10)) )
                     {
- 
+                        
                         a1=x;
                         a2=y;
                         up_arrow(x,y);
@@ -905,7 +905,7 @@ void    mymouse(int btn,    int state,  int x,  int y)
                 {
                     if(x+15>(wh/8)+1  &&  x+15<ww-2  && (wh-y)+15>2    &&  (wh-y)+15<(wh-(wh/20+10)) )
                     {
- 
+                        
                         a1=x;
                         a2=y;
                         left_arrow(x,y);
@@ -924,7 +924,7 @@ void    mymouse(int btn,    int state,  int x,  int y)
                 {
                     if(x-15>(wh/8)+1  &&  x-15<ww-2  && (wh-y)-15>2    &&  (wh-y)-15<(wh-(wh/20+10)) )
                     {
-
+                        
                         a1=x;
                         a2=y;
                         right_arrow(x,y);
@@ -967,7 +967,7 @@ void    mymouse(int btn,    int state,  int x,  int y)
                         glVertex2f(a[m][0],  b[m][1]); // a1,b2
                         glEnd();
                     }
-
+                    
                     glFlush();
                     undo=0;
                     break;
@@ -1080,7 +1080,7 @@ void    myreshape(GLsizei   w,  GLsizei h)  /*  RESHAPE FUNCTION    */
     
     
     glutPostRedisplay();
-
+    
     
 }
 
