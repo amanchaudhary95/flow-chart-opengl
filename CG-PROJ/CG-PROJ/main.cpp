@@ -1128,7 +1128,7 @@ void    myreshape(GLsizei   w,  GLsizei h)  /*  RESHAPE FUNCTION    */
 int main(int argc, char ** argv)
 
 {
-    //image   =   (char *)malloc(3*1450*900*sizeof(char));
+    image   =   (char *)malloc(3*1450*900*sizeof(char));
     glutInit(&argc,argv);
     glutInitDisplayMode (GLUT_SINGLE|   GLUT_RGB);
     glutCreateWindow("CG PROJECT");
