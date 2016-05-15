@@ -69,24 +69,28 @@ void reset()
     b4=0;
 }
 
-
-void    drawpoint(int   x,  int y)              //to draw a point
+/*
+ * Function to draw a point at x,y poistion
+ */
+void drawpoint(int x, int y)
 {
-    y=window_height-y;
+    y = window_height - y;
     
-    if(x>(window_height/8)+1   &&  x<window_width-2  && y>2  &&  y<(window_height-(window_height/20+10)))
+    if(x>(window_height/8)+1 &&  x<window_width-2  && y>2  &&  y<(window_height-(window_height/20+10)))
     {
-        
         glBegin(GL_POINTS);
-        glVertex2f(x,   y);
+        glVertex2f(x, y);
         glEnd();
         glFlush();
     }
 }
 
-void    delpoint(int    x,  int y)              //to del to first point for undo
+
+/*
+ * Function to delete to first point for undo
+ */
+void  delpoint(int x,int y)
 {
-    
     if(x>(window_height/8)+1   &&  x<window_width-2  && y>2  &&  y<(window_height-(window_height/20+10)))
     {
         glColor3f(1, 1, 1);
@@ -99,45 +103,47 @@ void    delpoint(int    x,  int y)              //to del to first point for undo
 
 
 
-
-void drawstring(float x,float y,float z,char const *string)
+/*
+ * Function to draw a string at x,y,z position
+ */
+void drawstring(float x, float y, float z, char const *string)
 {
-    char const *c;
-    glRasterPos3f(x,y,z);
-    for(c=string;*c!='\0';c++)
-    {
-        glutBitmapCharacter(currentfont,*c);
-    }
+    glRasterPos3f(x, y, z);
+    while(*string != '\0')
+        glutBitmapCharacter(currentfont, *string++);
 }
 
-void	draw_pixel(GLfloat	x,	GLfloat	y)
+/*
+ * Function to draw a pixel at a x,y position
+ */
+
+void draw_pixel(GLfloat	x, GLfloat y)
 {
-    
     glBegin(GL_POINTS);
-    glVertex2f(x,	y);
+    glVertex2f(x, y);
     glEnd();
-    
 }
 
-
-
-void	plotpixels(GLfloat	p,	GLfloat	q,	GLfloat	x,	GLfloat	y)
+/*
+ * TODO : Rishu needs to write the usage of the function parameters
+ */
+void plotpixels(GLfloat	p,	GLfloat	q,	GLfloat	x,	GLfloat	y)
 {
     draw_pixel(x+p,	y+q);
-    draw_pixel(-x+p,	y+q);
+    draw_pixel(-x+p, y+q);
     draw_pixel(x+p,	-y+q);
-    draw_pixel(-x+p,	-y+q);
-    
-    
+    draw_pixel(-x+p, -y+q);
     draw_pixel(y+p,	x+q);
-    draw_pixel(-y+p,	x+q);
+    draw_pixel(-y+p, x+q);
     draw_pixel(y+p,	-x+q);
-    draw_pixel(-y+p,	-x+q);
+    draw_pixel(-y+p, -x+q);
 }
 
 
-void	draw_circle(GLfloat	p,	GLfloat	q,	GLfloat	r)				/*	to	draw	a	CIRCLE	using	MIDPOINT	CIRCLE	DRAWING	algorithm
-                                                                     */
+/*
+ * Function to draw a circle using Midpoint circle drawing algorithm
+ */
+void	draw_circle(GLfloat	p,	GLfloat	q,	GLfloat	r)
 {
     GLfloat	d=1-r,	x=0,	y=r;
     
@@ -157,21 +163,14 @@ void	draw_circle(GLfloat	p,	GLfloat	q,	GLfloat	r)				/*	to	draw	a	CIRCLE	using	M
 }
 
 
-void drawDot (GLint x, GLint y)
-{
-    
-    glBegin (GL_POINTS);
-    glVertex2i (x,y);
-    glEnd();
-}
-
 void symmetricPixels (int x, int y, int xc, int yc)
 {
-    drawDot (xc + x, yc + y);
-    drawDot (xc - x, yc + y);
-    drawDot (xc + x, yc - y);
-    drawDot (xc - x, yc - y);
+    draw_pixel(xc + x, yc + y);
+    draw_pixel(xc - x, yc + y);
+    draw_pixel(xc + x, yc - y);
+    draw_pixel(xc - x, yc - y);
 }
+
 void down_arrow(float x, float y)
 {
     glBegin(GL_LINES);
@@ -220,6 +219,7 @@ void right_arrow(float x, float y)
     glEnd();
     glFlush();
 }
+
 void Ellipse (int a, int b, int xc, int yc)
 {
     int aSq,bSq,twoASq,twoBSq,d,dx,dy,x,y;
