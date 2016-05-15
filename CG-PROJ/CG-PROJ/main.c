@@ -23,9 +23,28 @@ int k=0;
 int s=0;
 //const float DEG2RAD = 3.14159/180.0;
 int temp1,temp2;
-char text[40];
+char text[100][60];
+int len[100];
+
 float textx=0,texty=0,textz=0;
 const float GUI_GRAY = 0.85f;
+int xtemp=0;;
+int ytemp=0;
+int test=0;
+int xmin,xmax,ymin,ymax;
+int i=0;
+
+//textx=40.0,texty=window_height-25.0;
+
+void setxy()
+{
+    s=0;
+    if(drw[element_index-1] == 3)
+    {
+      textx = flowchart_element_x[element_index-1][0]+5;
+      texty = flowchart_element_y[element_index-1][0]-12;
+    }
+}
 
 void setfont(void *font){
     currentfont=font;
@@ -42,9 +61,12 @@ void stack_push(){
     flowchart_element_y[element_index][i+2]=b3;
     flowchart_element_y[element_index][i+3]=b4;
     drw[element_index++]=draw;
+    printf("%d",element_index);
 }
 
 void clear_left_status(){
+    glColor3f(GUI_GRAY,GUI_GRAY,GUI_GRAY);
+    glRectf(0, window_height-45,500, window_height);
     
 }
 
@@ -269,40 +291,62 @@ void Ellipse (int a, int b, int xc, int yc)
 }
 
 
-
-void	keys(unsigned	char	key,	int	x,	int	y)																		                                        /*	to	get	text from keyboard		*/
+/*	to	get	text from keyboard		*/
+void	keys(unsigned	char	key,	int	x,	int	y)
 {
+    //printf("%d",key);
     
-    if(key==127)
-    {
-        //text[s]=key;
-        textx=textx-10;
-        glRasterPos3f	(textx,	texty,textz);
-        
-        glColor3f(0.85, 0.85,   0.85);
-        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, text[s]);
-        
-        
-        s--;
-        
-        
+  if(drw[element_index-1] == 3)
+  {
+      
+      if(textx + 5 == flowchart_element_x[element_index-1][1])
+      {
+          textx = flowchart_element_x[element_index-1][0]+5;
+          texty -= 12;
+      }
+      if(texty - 2 < flowchart_element_y[element_index-1][1])
+      {
+          glColor3f(1, 0, 0);
+          drawstring(window_height/80, window_height-25, 0.0, "REACHED LIMIT");
+          
+      }
+
+      if(key == 127)
+      {
+        //printf("hey 2\n");
+        textx -= 10;
+        glColor3f(1,1,1);
+        glRasterPos3f(textx,texty,textz);
+        glutBitmapCharacter(GLUT_BITMAP_8_BY_13, text[element_index-1][--s]);
+        glColor3f(GUI_GRAY,GUI_GRAY,GUI_GRAY);
+        glRectf(0, window_height-45,500, window_height);
+        if(textx - 5 == flowchart_element_x[element_index-1][0])
+        {
+            texty+=12;
+            textx = flowchart_element_x[element_index-1][1]-5;
+            s--;
+        }
+      }
+    else if(key==13)
+      {
+          text[element_index-1][s++] = key;
+          textx = flowchart_element_x[element_index-1][0]+5;
+          texty -= 12;
+          
+      }
+     else {
+        text[element_index-1][s] = key;
+        glColor3f(0, 0,0);
+        glRasterPos3f(textx,texty, textz);
+        glutBitmapCharacter(GLUT_BITMAP_8_BY_13, text[element_index-1][s++]);
+        //printf(" char %c",text[element_index][s-1]);
+        textx += 10;
     }
-    
-    else
-        
-    {
-        text[s]=key;
-        
-        glRasterPos3f	(textx,	texty,textz);
-        
-        glColor3f(0,	0,	0);
-        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, text[s]);
-        textx=textx+10;
-        
-        s++;
-    }
-    
+      
+      
+      len[element_index-1]=s;
     glFlush();
+   }
     
     
     
@@ -521,7 +565,7 @@ void    mymouse(int btn,    int state,  int x,  int y)
     
     if(btn==GLUT_LEFT_BUTTON    &&  state==GLUT_DOWN)
     {
-        printf("x=%d y=%d \n",x,y);
+       // printf("x=%d y=%d \n",x,y);
         setfont(GLUT_BITMAP_9_BY_15);
         
         if(screenIndex==1 || screenIndex==0)
@@ -789,6 +833,7 @@ void    mymouse(int btn,    int state,  int x,  int y)
                         glVertex2f(a1,  b2);
                         glEnd();
                         reset();
+                        setxy();
                         glFlush();
                         
                         
@@ -1041,6 +1086,30 @@ void    mymouse(int btn,    int state,  int x,  int y)
                     glVertex2f(flowchart_element_x[element_index][1],flowchart_element_y[element_index][1]);   //a2b2
                     glVertex2f(flowchart_element_x[element_index][0],flowchart_element_y[element_index][1]);   //a1b2
                     glEnd();
+                    textx = flowchart_element_x[element_index][0]+5;
+                    texty = flowchart_element_y[element_index][0]-12;
+                    
+                   for(i=0;i<len[element_index];i++)
+                   {
+                       if(text[element_index][i]==13)
+                       {
+                           textx = flowchart_element_x[element_index][0]+5;
+                           texty -= 12;
+                           i++;
+                       }
+                       
+                       if(textx + 6 > flowchart_element_x[element_index][1])
+                       {
+                           textx = flowchart_element_x[element_index][0]+5;
+                           texty -= 12;
+                       }
+   
+                    glColor3f(1, 1,1);
+                    glRasterPos3f(textx,texty, textz);
+                    glutBitmapCharacter(GLUT_BITMAP_8_BY_13, text[element_index][i]);
+                    textx += 10;
+                   }
+
                     undo=0;
                     glFlush();
                     break;
@@ -1142,7 +1211,11 @@ void    myreshape(GLsizei   w,  GLsizei h)  /*  RESHAPE FUNCTION    */
 int main(int argc, char ** argv)
 
 {
-    textx=50,texty=window_height-25,textz=0.0;
+    //textx=40,texty=window_height-25,
+    textx = 40;
+    texty = window_height-25;
+
+    textz=0.0;
     image   =   (char *)malloc(3*1450*900*sizeof(char));
     glutInit(&argc,argv);
     glutInitDisplayMode (GLUT_SINGLE|   GLUT_RGB);
